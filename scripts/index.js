@@ -15,6 +15,14 @@ const loadAllPlants = () => {
     .then((data) => displayPlants(data.plants));
 };
 
+const loadPlantsByCategory = (id) => {
+  const plantsByCategoryUrl = `https://openapi.programming-hero.com/api/category/${id}`;
+
+  fetch(plantsByCategoryUrl)
+    .then((response) => response.json())
+    .then((data) => displayPlants(data.plants));
+};
+
 const displayPlants = (plantsData) => {
   const cardContainer = document.getElementById("card-container");
   cardContainer.innerHTML = "";
