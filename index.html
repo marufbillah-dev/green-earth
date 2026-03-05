@@ -69,69 +69,12 @@
             <!-- categories -->
             <aside class="w-full lg:w-1/6">
                 <h3 class="font-semibold mb-4">Categories</h3>
-                <ul class="space-y-2">
-                    <li class="bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer">All Trees</li>
-                    <li class="px-4 py-2 hover:bg-emerald-100 rounded-lg cursor-pointer">Fruit Trees</li>
-                    <li class="px-4 py-2 hover:bg-emerald-100 rounded-lg cursor-pointer">Flowering Trees</li>
-                    <li class="px-4 py-2 hover:bg-emerald-100 rounded-lg cursor-pointer">Shade Trees</li>
+                <ul class="space-y-2" id="category-btn-container">
                 </ul>
             </aside>
 
             <!-- cards -->
-            <div class="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                <div class="card bg-base-100 shadow-sm border border-gray-100">
-                    <figure class="px-4 pt-4">
-                        <div class="w-full h-48 bg-gray-200 rounded-xl"></div>
-                    </figure>
-                    <div class="card-body p-5">
-                        <h2 class="card-title text-lg font-semibold">Mango Tree</h2>
-                        <p class="text-sm text-gray-500">A fast-growing tropical tree that produces delicious, juicy
-                            mangoes during summer.</p>
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="badge font-medium bg-emerald-50 text-green-700 border-none py-3 px-4">Fruit
-                                Tree</span>
-                            <span class="font-semibold text-lg">৳500</span>
-                        </div>
-                        <div class="card-actions mt-4">
-                            <button class="btn bg-green-700 hover:bg-green-800 text-white w-full border-none">Add to
-                                Cart</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card bg-base-100 shadow-sm border border-gray-100">
-                    <figure class="px-4 pt-4">
-                        <div class="w-full h-48 bg-gray-200 rounded-xl"></div>
-                    </figure>
-                    <div class="card-body p-5">
-                        <h2 class="card-title text-lg font-semibold">Mango Tree</h2>
-                        <p class="text-sm text-gray-500">A fast-growing tropical tree that produces delicious, juicy
-                            mangoes during summer.</p>
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="badge font-medium bg-emerald-50 text-green-700 border-none py-3 px-4">Fruit
-                                Tree</span>
-                            <span class="font-semibold text-lg">৳500</span>
-                        </div>
-                        <button class="btn bg-green-700 hover:bg-green-800 text-white w-full border-none mt-4">Add to
-                            Cart</button>
-                    </div>
-                </div>
-                <div class="card bg-base-100 shadow-sm border border-gray-100">
-                    <figure class="px-4 pt-4">
-                        <div class="w-full h-48 bg-gray-200 rounded-xl"></div>
-                    </figure>
-                    <div class="card-body p-5">
-                        <h2 class="card-title text-lg font-semibold">Mango Tree</h2>
-                        <p class="text-sm text-gray-500">A fast-growing tropical tree that produces delicious, juicy
-                            mangoes during summer.</p>
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="badge font-medium bg-emerald-50 text-green-700 border-none py-3 px-4">Fruit
-                                Tree</span>
-                            <span class="font-semibold text-lg">৳500</span>
-                        </div>
-                        <button class="btn bg-green-700 hover:bg-green-800 text-white w-full border-none mt-4">Add to
-                            Cart</button>
-                    </div>
-                </div>
+            <div class="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="card-container">
             </div>
 
             <!-- cart -->
@@ -247,6 +190,7 @@
         © 2025 Green Earth. All Rights Reserved.
     </footer>
 
+    <script src="./scripts/index.js"></script>
 </body>
 
 </html>
