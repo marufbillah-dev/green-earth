@@ -1,35 +1,35 @@
 const loading = (status) => {
   const cardContainer = document.getElementById("card-container");
-  const loadingElement = document.getElementById("loading")
+  const loadingElement = document.getElementById("loading");
   if (status) {
-    cardContainer.classList.add("hidden")
-    loadingElement.classList.remove("hidden")
+    cardContainer.classList.add("hidden");
+    loadingElement.classList.remove("hidden");
   } else {
-    cardContainer.classList.remove("hidden")
-    loadingElement.classList.add("hidden")
+    cardContainer.classList.remove("hidden");
+    loadingElement.classList.add("hidden");
   }
-}
+};
 
-const loadAllCategories = () => {
+const loadAllCategories = async () => {
   loading(true);
   const allCategoriesUrl =
     "https://openapi.programming-hero.com/api/categories";
 
-  fetch(allCategoriesUrl)
-    .then((response) => response.json())
-    .then((data) => displayCategories(data.categories));
+  const response = await fetch(allCategoriesUrl);
+  const data = await response.json();
+  displayCategories(data.categories);
 };
 
-const loadAllPlants = () => {
+const loadAllPlants = async () => {
   loading(true);
   const allPlantUrl = "https://openapi.programming-hero.com/api/plants";
 
-  fetch(allPlantUrl)
-    .then((response) => response.json())
-    .then((data) => displayPlants(data.plants));
+  const response = await fetch(allPlantUrl);
+  const data = await response.json();
+  displayPlants(data.plants);
 };
 
-const loadPlantsByCategory = (id) => {
+const loadPlantsByCategory = async (id) => {
   const activeBtnStyle = () => {
     const allCategoryBtn = document.querySelectorAll(".category-btn");
     const clickedBtn = document.getElementById(id);
@@ -43,22 +43,22 @@ const loadPlantsByCategory = (id) => {
       "bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer category-btn";
   };
   activeBtnStyle();
-  
+
   loading(true);
 
   const plantsByCategoryUrl = `https://openapi.programming-hero.com/api/category/${id}`;
 
-  fetch(plantsByCategoryUrl)
-    .then((response) => response.json())
-    .then((data) => displayPlants(data.plants));
+  const response = await fetch(plantsByCategoryUrl);
+  const data = await response.json();
+  displayPlants(data.plants);
 };
 
-const loadPlantDetails = (id) => {
+const loadPlantDetails = async (id) => {
   const plantDetailsUrl = `https://openapi.programming-hero.com/api/plant/${id}`;
 
-  fetch(plantDetailsUrl)
-    .then((response) => response.json())
-    .then((data) => displayPlantDetails(data.plants));
+  const response = await fetch(plantDetailsUrl);
+  const data = await response.json();
+  displayPlantDetails(data.plants);
 };
 
 const displayPlantDetails = (plantDetails) => {
@@ -126,7 +126,7 @@ const displayPlants = (plantsData) => {
                 onclick="loadPlantDetails(${plant.id})">
                 ${plant.name}
             </h2>
-            <p class="text-sm text-gray-500 line-clamp-2">${plant.description}</p>
+            <p class="text-sm text-gray-500">${plant.description}</p>
         </div>
 
         <div class="mt-auto">
@@ -136,7 +136,7 @@ const displayPlants = (plantsData) => {
                 <span class="font-semibold text-lg">৳${plant.price}</span>
             </div>
             <div class="card-actions mt-4">
-                <button class="btn bg-green-700 hover:bg-green-800 text-white w-full border-none">
+                <button class="btn bg-green-700 hover:bg-green-800 text-white w-full border-none" onclick="addToCart('${plant.id}', '${plant.name}', ${plant.price})">
                     Add to Cart
                 </button>
             </div>
@@ -160,15 +160,60 @@ const displayCategories = (categoriesData) => {
     newCategoryBtn.className =
       "px-4 py-2 hover:bg-emerald-100 rounded-lg cursor-pointer category-btn";
     newCategoryBtn.innerText = `${category.category_name}`;
-    newCategoryBtn.setAttribute(
-      "onclick",
-      `loadPlantsByCategory(${category.id})`,
-    );
+    newCategoryBtn.onclick = () => loadPlantsByCategory(category.id);
     newCategoryBtn.setAttribute("id", `${category.id}`);
 
     categoryBtnContainer.appendChild(newCategoryBtn);
   });
   loading(false);
+};
+
+let cart = [];
+
+const addToCart = (plantId, plantName, plantPrice) => {
+  const existingItem = cart.find((item) => item.plantId === plantId);
+
+  if (existingItem) {
+    existingItem.plantQuantity += 1;
+  } else {
+    cart.push({ plantId, plantName, plantPrice, plantQuantity: 1 });
+  }
+
+  displayToCart();
+};
+
+const displayToCart = () => {
+  const cartItemsContainer = document.getElementById("cart-items-container");
+  cartItemsContainer.innerHTML = "";
+
+  let cartTotalPrice = 0;
+
+  cart.forEach((item) => {
+    cartTotalPrice += item.plantPrice * item.plantQuantity;
+
+    const newCart = document.createElement("div");
+    newCart.className =
+      "flex justify-between items-center text-sm bg-emerald-50 px-4 py-2 rounded-lg";
+    newCart.innerHTML = `
+      <div class="space-y-2">
+          <p class="font-semibold">${item.plantName}</p>
+          <p class="text-gray-400">৳${item.plantPrice} × ${item.plantQuantity}</p>
+      </div>
+      <button class="text-gray-400  hover:text-red-400 transition-all duration-100 text-2xl cursor-pointer p-1 w-6.5 h-6.5 rounded-full flex justify-center items-center hover:bg-emerald-100" onclick="deleteCartItem(${item.plantId})">×</button>
+  `;
+
+    cartItemsContainer.appendChild(newCart);
+  });
+
+  const cartTotalPriceElement = document.getElementById("cart-total-price");
+  cartTotalPriceElement.innerText = cartTotalPrice;
+};
+
+const deleteCartItem = (plantId) => {
+  const newCartItems = cart.filter((item) => item.plantId != plantId);
+  cart = newCartItems;
+
+  displayToCart();
 };
 
 loadAllCategories();

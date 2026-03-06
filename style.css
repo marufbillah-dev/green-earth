@@ -4,6 +4,10 @@ body {
   font-family: "Inter", sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @keyframes loading {
   0% {
     transform: translateX(-100%);
