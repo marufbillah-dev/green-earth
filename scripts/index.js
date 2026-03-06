@@ -1,4 +1,17 @@
+const loading = (status) => {
+  const cardContainer = document.getElementById("card-container");
+  const loadingElement = document.getElementById("loading")
+  if (status) {
+    cardContainer.classList.add("hidden")
+    loadingElement.classList.remove("hidden")
+  } else {
+    cardContainer.classList.remove("hidden")
+    loadingElement.classList.add("hidden")
+  }
+}
+
 const loadAllCategories = () => {
+  loading(true);
   const allCategoriesUrl =
     "https://openapi.programming-hero.com/api/categories";
 
@@ -8,6 +21,7 @@ const loadAllCategories = () => {
 };
 
 const loadAllPlants = () => {
+  loading(true);
   const allPlantUrl = "https://openapi.programming-hero.com/api/plants";
 
   fetch(allPlantUrl)
@@ -29,6 +43,8 @@ const loadPlantsByCategory = (id) => {
       "bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer category-btn";
   };
   activeBtnStyle();
+  
+  loading(true);
 
   const plantsByCategoryUrl = `https://openapi.programming-hero.com/api/category/${id}`;
 
@@ -130,6 +146,7 @@ const displayPlants = (plantsData) => {
 
     cardContainer.appendChild(newCard);
   });
+  loading(false);
 };
 
 const displayCategories = (categoriesData) => {
@@ -151,6 +168,7 @@ const displayCategories = (categoriesData) => {
 
     categoryBtnContainer.appendChild(newCategoryBtn);
   });
+  loading(false);
 };
 
 loadAllCategories();
