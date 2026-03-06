@@ -16,6 +16,20 @@ const loadAllPlants = () => {
 };
 
 const loadPlantsByCategory = (id) => {
+  const activeBtnStyle = () => {
+    const allCategoryBtn = document.querySelectorAll(".category-btn");
+    const clickedBtn = document.getElementById(id);
+
+    allCategoryBtn.forEach((btn) => {
+      btn.className =
+        "px-4 py-2 hover:bg-emerald-100 rounded-lg cursor-pointer category-btn";
+    });
+
+    clickedBtn.className =
+      "bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer category-btn";
+  };
+  activeBtnStyle();
+
   const plantsByCategoryUrl = `https://openapi.programming-hero.com/api/category/${id}`;
 
   fetch(plantsByCategoryUrl)
@@ -125,14 +139,15 @@ const displayCategories = (categoriesData) => {
     );
 
     const newCategoryBtn = document.createElement("li");
-    // bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer
+    // bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer category-btn
     newCategoryBtn.className =
-      "px-4 py-2 hover:bg-emerald-100 rounded-lg cursor-pointer";
+      "px-4 py-2 hover:bg-emerald-100 rounded-lg cursor-pointer category-btn";
     newCategoryBtn.innerText = `${category.category_name}`;
     newCategoryBtn.setAttribute(
       "onclick",
       `loadPlantsByCategory(${category.id})`,
     );
+    newCategoryBtn.setAttribute("id", `${category.id}`);
 
     categoryBtnContainer.appendChild(newCategoryBtn);
   });
