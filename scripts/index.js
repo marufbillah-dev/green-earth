@@ -1,3 +1,16 @@
+const activeBtnStyle = (id) => {
+    const allCategoryBtn = document.querySelectorAll(".category-btn");
+    const clickedBtn = document.getElementById(id);
+
+    allCategoryBtn.forEach((btn) => {
+      btn.className =
+        "px-4 py-2 hover:bg-emerald-100 rounded-lg cursor-pointer category-btn";
+    });
+
+    clickedBtn.className =
+      "bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer category-btn";
+  };
+
 const loading = (status) => {
   const cardContainer = document.getElementById("card-container");
   const loadingElement = document.getElementById("loading");
@@ -27,22 +40,11 @@ const loadAllPlants = async () => {
   const response = await fetch(allPlantUrl);
   const data = await response.json();
   displayPlants(data.plants);
+  activeBtnStyle(0)
 };
 
 const loadPlantsByCategory = async (id) => {
-  const activeBtnStyle = () => {
-    const allCategoryBtn = document.querySelectorAll(".category-btn");
-    const clickedBtn = document.getElementById(id);
-
-    allCategoryBtn.forEach((btn) => {
-      btn.className =
-        "px-4 py-2 hover:bg-emerald-100 rounded-lg cursor-pointer category-btn";
-    });
-
-    clickedBtn.className =
-      "bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer category-btn";
-  };
-  activeBtnStyle();
+  activeBtnStyle(id);
 
   loading(true);
 
@@ -150,11 +152,19 @@ const displayPlants = (plantsData) => {
 };
 
 const displayCategories = (categoriesData) => {
-  categoriesData.forEach((category) => {
-    const categoryBtnContainer = document.getElementById(
-      "category-btn-container",
-    );
+  const categoryBtnContainer = document.getElementById(
+    "category-btn-container",
+  );
 
+  const allBtn = document.createElement("li");
+  allBtn.className =
+    "px-4 py-2 hover:bg-emerald-100 rounded-lg cursor-pointer category-btn";
+  allBtn.innerText = "All Plants";
+  allBtn.setAttribute("id", 0);
+  allBtn.onclick = () => loadAllPlants();
+  categoryBtnContainer.appendChild(allBtn);
+
+  categoriesData.forEach((category) => {
     const newCategoryBtn = document.createElement("li");
     // bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer category-btn
     newCategoryBtn.className =
@@ -162,6 +172,7 @@ const displayCategories = (categoriesData) => {
     newCategoryBtn.innerText = `${category.category_name}`;
     newCategoryBtn.onclick = () => loadPlantsByCategory(category.id);
     newCategoryBtn.setAttribute("id", `${category.id}`);
+    activeBtnStyle(0)
 
     categoryBtnContainer.appendChild(newCategoryBtn);
   });
