@@ -113,7 +113,7 @@ const displayPlants = (plantsData) => {
   plantsData.forEach((plant) => {
     const newCard = document.createElement("div");
     newCard.className =
-      "card bg-base-100 shadow-sm border border-gray-100 flex flex-col h-full";
+      "card bg-base-100 shadow-sm border border-gray-100 flex flex-col h-[476px]";
     newCard.innerHTML = `
     <figure class="px-4 pt-4">
         <div class="w-full h-48 bg-gray-200 rounded-xl overflow-hidden cursor-pointer"
